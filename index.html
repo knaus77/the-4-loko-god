@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +24,7 @@
 
         .hero {
             min-height: 100vh;
-            padding: 70px 20px 120px;
+            padding: 70px 20px 100px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -42,7 +43,7 @@
             font-size: clamp(22px, 5vw, 36px);
             font-weight: 900;
             letter-spacing: 2px;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
 
         .description {
@@ -50,19 +51,28 @@
             font-size: 18px;
             line-height: 1.6;
             color: #aaa;
-            margin-bottom: 40px;
+            margin-bottom: 35px;
         }
 
         .talk-button {
-            display: inline-block;
-            padding: 18px 35px;
+            border: none;
+            padding: 20px 38px;
             border-radius: 50px;
             background: white;
             color: black;
-            font-size: 18px;
-            font-weight: 800;
-            text-decoration: none;
-            margin-bottom: 35px;
+            font-size: 19px;
+            font-weight: 900;
+            cursor: pointer;
+            margin-bottom: 45px;
+            transition: transform 0.2s;
+        }
+
+        .talk-button:hover {
+            transform: scale(1.05);
+        }
+
+        .talk-button:active {
+            transform: scale(0.97);
         }
 
         .features {
@@ -92,14 +102,22 @@
             font-size: 14px;
         }
 
-        .ai-box {
-            width: min(900px, 95%);
-            min-height: 150px;
-            margin: 0 auto;
+        /*
+        Hide the normal ElevenLabs launcher.
+        Our custom button will control the widget.
+        */
+        elevenlabs-convai {
+            display: none;
+        }
+
+        .status {
+            margin-top: 20px;
+            color: #777;
+            font-size: 14px;
         }
 
         .footer {
-            margin-top: 70px;
+            margin-top: 60px;
             color: #666;
             font-size: 13px;
             max-width: 650px;
@@ -126,12 +144,9 @@
             occasionally confused, and somehow always has an answer.
         </p>
 
-        <elevenlabs-convai
-    agent-id=<elevenlabs-convai agent-id="agent_7601m4bq7cx8eqpag7gx0r8mgymr"></elevenlabs-convai><script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
-    variant="expanded"
-    start-call-text="Talk to The 4 Loko God"
-></elevenlabs-convai>
-        
+        <button id="talkButton" class="talk-button">
+            🎙️ TALK TO THE 4 LOKO GOD
+        </button>
 
         <div class="features">
 
@@ -152,18 +167,20 @@
 
             <div class="feature">
                 <strong>🍺 Personality</strong>
-                <span>Expect some questionable beer-related interruptions.</span>
+                <span>Expect questionable beer-related interruptions.</span>
             </div>
 
         </div>
 
-        <div id="talk" class="ai-box">
-
-            <!-- KEEP YOUR ELEVENLABS EMBED CODE HERE -->
-
-            <elevenlabs-convai agent-id="agent_7601m4bq7cx8eqpag7gx0r8mgymr"></elevenlabs-convai><script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
-
+        <div class="status" id="status">
+            Ready when you are.
         </div>
+
+        <!-- ElevenLabs agent -->
+        <elevenlabs-convai
+            id="fourLokoGod"
+            agent-id=<elevenlabs-convai agent-id="agent_7601m4bq7cx8eqpag7gx0r8mgymr"></elevenlabs-convai><script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>>
+        </elevenlabs-convai>
 
         <div class="footer">
             The 4 Loko God is a fictional AI character.
@@ -173,5 +190,34 @@
 
     </main>
 
+    <!-- ElevenLabs widget -->
+    <script
+        src="https://unpkg.com/@elevenlabs/convai-widget-embed"
+        async
+        type="text/javascript">
+    </script>
+
+    <!-- Custom button control -->
+    <script>
+        const button = document.getElementById("talkButton");
+        const widget = document.getElementById("fourLokoGod");
+        const status = document.getElementById("status");
+
+        button.addEventListener("click", () => {
+            status.textContent = "Connecting to The 4 Loko God...";
+
+            if (widget && typeof widget.startConversation === "function") {
+                widget.startConversation();
+
+                button.textContent = "🔴 TALKING TO THE 4 LOKO GOD";
+                status.textContent = "The 4 Loko God is connecting...";
+            } else {
+                status.textContent =
+                    "The voice system is still loading. Try again in a second.";
+            }
+        });
+    </script>
+
 </body>
 </html>
+```
