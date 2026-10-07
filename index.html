@@ -1,1 +1,176 @@
-<elevenlabs-convai agent-id="agent_7601m4bq7cx8eqpag7gx0r8mgymr"></elevenlabs-convai><script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>The 4 Loko God</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #080808;
+            color: white;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .hero {
+            min-height: 100vh;
+            padding: 70px 20px 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo {
+            font-size: clamp(42px, 10vw, 90px);
+            font-weight: 900;
+            letter-spacing: -4px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .tagline {
+            font-size: clamp(18px, 4vw, 28px);
+            color: #aaa;
+            margin-bottom: 35px;
+        }
+
+        .description {
+            max-width: 650px;
+            font-size: 18px;
+            line-height: 1.6;
+            color: #ccc;
+            margin-bottom: 45px;
+        }
+
+        .talk-button {
+            display: inline-block;
+            padding: 18px 35px;
+            border-radius: 50px;
+            background: white;
+            color: black;
+            font-size: 18px;
+            font-weight: 800;
+            text-decoration: none;
+            margin-bottom: 35px;
+        }
+
+        .talk-button:hover {
+            transform: scale(1.04);
+        }
+
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            max-width: 800px;
+            margin-bottom: 50px;
+        }
+
+        .feature {
+            background: #151515;
+            border: 1px solid #292929;
+            border-radius: 15px;
+            padding: 18px 22px;
+            min-width: 180px;
+        }
+
+        .feature strong {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .feature span {
+            color: #999;
+            font-size: 14px;
+        }
+
+        .ai-box {
+            width: min(900px, 95%);
+            min-height: 150px;
+            margin: 0 auto;
+        }
+
+        .footer {
+            margin-top: 70px;
+            color: #666;
+            font-size: 13px;
+            max-width: 650px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="hero">
+
+        <div class="logo">
+            THE 4 LOKO GOD
+        </div>
+
+        <div class="tagline">
+            The smartest drunk AI that never actually drinks.
+        </div>
+
+        <p class="description">
+            Ask him anything. He's ridiculously intelligent, slightly confused,
+            occasionally distracted, and somehow always has an answer.
+        </p>
+
+        <a href="#talk" class="talk-button">
+            🎙️ TALK TO THE 4 LOKO GOD
+        </a>
+
+        <div class="features">
+
+            <div class="feature">
+                <strong>🧠 Ask Anything</strong>
+                <span>Science, history, random questions and more.</span>
+            </div>
+
+            <div class="feature">
+                <strong>🌎 Real-Time Info</strong>
+                <span>He can search the web for current information.</span>
+            </div>
+
+            <div class="feature">
+                <strong>⚽ Football</strong>
+                <span>Especially Manchester United.</span>
+            </div>
+
+            <div class="feature">
+                <strong>🍺 Personality</strong>
+                <span>Expect some questionable beer-related interruptions.</span>
+            </div>
+
+        </div>
+
+        <div id="talk" class="ai-box">
+
+            <!-- YOUR ELEVENLABS EMBED CODE GOES HERE -->
+
+            <elevenlabs-convai agent-id="agent_7601m4bq7cx8eqpag7gx0r8mgymr"></elevenlabs-convai><script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+
+        </div>
+
+        <div class="footer">
+            The 4 Loko God is a fictional AI character.
+            Information provided by the AI should not be treated as professional
+            medical, legal, financial, or safety advice.
+        </div>
+
+    </main>
+
+</body>
+</html>
