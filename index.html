@@ -63,7 +63,7 @@
             font-size: 19px;
             font-weight: 900;
             cursor: pointer;
-            margin-bottom: 45px;
+            margin-bottom: 25px;
             transition: transform 0.2s;
         }
 
@@ -81,7 +81,7 @@
             justify-content: center;
             gap: 15px;
             max-width: 800px;
-            margin-bottom: 50px;
+            margin-bottom: 35px;
         }
 
         .feature {
@@ -103,21 +103,29 @@
         }
 
         /*
-        Hide the normal ElevenLabs launcher.
-        Our custom button will control the widget.
+        ElevenLabs widget starts hidden.
+        Clicking the big button below reveals it.
         */
-        elevenlabs-convai {
+        .widget-container {
             display: none;
+            width: 100%;
+            max-width: 500px;
+            margin: 10px auto 30px;
+        }
+
+        .widget-container.show {
+            display: block;
         }
 
         .status {
-            margin-top: 20px;
+            margin-top: 5px;
+            margin-bottom: 10px;
             color: #777;
             font-size: 14px;
         }
 
         .footer {
-            margin-top: 60px;
+            margin-top: 30px;
             color: #666;
             font-size: 13px;
             max-width: 650px;
@@ -148,6 +156,18 @@
             🎙️ TALK TO THE 4 LOKO GOD
         </button>
 
+        <div class="status" id="status">
+            Ready when you are.
+        </div>
+
+        <div class="widget-container" id="widgetContainer">
+
+            <elevenlabs-convai
+                agent-id="agent_7601m4bq7cx8eqpag7gx0r8mgymr">
+            </elevenlabs-convai>
+
+        </div>
+
         <div class="features">
 
             <div class="feature">
@@ -172,16 +192,6 @@
 
         </div>
 
-        <div class="status" id="status">
-            Ready when you are.
-        </div>
-
-        <!-- ElevenLabs agent -->
-        <elevenlabs-convai
-            id="fourLokoGod"
-            agent-id=<elevenlabs-convai agent-id="agent_7601m4bq7cx8eqpag7gx0r8mgymr"></elevenlabs-convai><script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>>
-        </elevenlabs-convai>
-
         <div class="footer">
             The 4 Loko God is a fictional AI character.
             Information provided by the AI should not be treated as
@@ -197,24 +207,25 @@
         type="text/javascript">
     </script>
 
-    <!-- Custom button control -->
+    <!-- Big button -->
     <script>
         const button = document.getElementById("talkButton");
-        const widget = document.getElementById("fourLokoGod");
+        const widgetContainer = document.getElementById("widgetContainer");
         const status = document.getElementById("status");
 
         button.addEventListener("click", () => {
-            status.textContent = "Connecting to The 4 Loko God...";
 
-            if (widget && typeof widget.startConversation === "function") {
-                widget.startConversation();
+            widgetContainer.classList.add("show");
 
-                button.textContent = "🔴 TALKING TO THE 4 LOKO GOD";
-                status.textContent = "The 4 Loko God is connecting...";
-            } else {
-                status.textContent =
-                    "The voice system is still loading. Try again in a second.";
-            }
+            button.textContent = "🎙️ THE 4 LOKO GOD IS READY";
+
+            status.textContent =
+                "Use the ElevenLabs conversation button below to start talking.";
+
+            widgetContainer.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
         });
     </script>
 
