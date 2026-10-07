@@ -64,7 +64,7 @@
             font-weight: 900;
             cursor: pointer;
             margin-bottom: 25px;
-            transition: transform 0.2s, opacity 0.2s;
+            transition: transform 0.2s;
         }
 
         .talk-button:hover {
@@ -73,28 +73,6 @@
 
         .talk-button:active {
             transform: scale(0.97);
-        }
-
-        .talk-button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .stop-button {
-            display: none;
-            border: 1px solid #444;
-            padding: 12px 25px;
-            border-radius: 30px;
-            background: #151515;
-            color: white;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-bottom: 25px;
-        }
-
-        .stop-button:hover {
-            background: #222;
         }
 
         .features {
@@ -124,8 +102,24 @@
             font-size: 14px;
         }
 
+        /*
+        ElevenLabs widget starts hidden.
+        Clicking the big button below reveals it.
+        */
+        .widget-container {
+            display: none;
+            width: 100%;
+            max-width: 500px;
+            margin: 10px auto 30px;
+        }
+
+        .widget-container.show {
+            display: block;
+        }
+
         .status {
-            margin-bottom: 25px;
+            margin-top: 5px;
+            margin-bottom: 10px;
             color: #777;
             font-size: 14px;
         }
@@ -136,10 +130,6 @@
             font-size: 13px;
             max-width: 650px;
             line-height: 1.5;
-        }
-
-        .connected {
-            color: #7CFF7C;
         }
     </style>
 </head>
@@ -162,18 +152,20 @@
             occasionally confused, and somehow always has an answer.
         </p>
 
-        <!-- MAIN BUTTON -->
         <button id="talkButton" class="talk-button">
             🎙️ TALK TO THE 4 LOKO GOD
         </button>
 
-        <!-- STOP BUTTON -->
-        <button id="stopButton" class="stop-button">
-            ⛔ END CONVERSATION
-        </button>
-
         <div class="status" id="status">
             Ready when you are.
+        </div>
+
+        <div class="widget-container" id="widgetContainer">
+
+            <elevenlabs-convai
+                agent-id="agent_7601m4bq7cx8eqpag7gx0r8mgymr">
+            </elevenlabs-convai>
+
         </div>
 
         <div class="features">
@@ -208,152 +200,33 @@
 
     </main>
 
+    <!-- ElevenLabs widget -->
+    <script
+        src="https://unpkg.com/@elevenlabs/convai-widget-embed"
+        async
+        type="text/javascript">
+    </script>
 
-    <!-- ElevenLabs JavaScript SDK -->
-    <script type="module">
-
-        import { Conversation } from "https://cdn.jsdelivr.net/npm/@elevenlabs/client/+esm";
-
-        const talkButton = document.getElementById("talkButton");
-        const stopButton = document.getElementById("stopButton");
+    <!-- Big button -->
+    <script>
+        const button = document.getElementById("talkButton");
+        const widgetContainer = document.getElementById("widgetContainer");
         const status = document.getElementById("status");
 
-        let conversation = null;
+        button.addEventListener("click", () => {
 
+            widgetContainer.classList.add("show");
 
-        async function startConversation() {
+            button.textContent = "🎙️ THE 4 LOKO GOD IS READY";
 
-            try {
+            status.textContent =
+                "Use the ElevenLabs conversation button below to start talking.";
 
-                talkButton.disabled = true;
-
-                status.textContent = "🎙️ Getting the microphone ready...";
-
-                /*
-                Ask the browser for microphone permission.
-                */
-                await navigator.mediaDevices.getUserMedia({
-                    audio: true
-                });
-
-
-                status.textContent = "🍺 Connecting to The 4 Loko God...";
-
-
-                /*
-                Start the ElevenLabs conversation.
-                */
-                conversation = await Conversation.startSession({
-
-                    agentId: "agent_7601m4bq7cx8eqpag7gx0r8mgymr",
-
-                    onConnect: () => {
-
-                        status.textContent =
-                            "🔴 The 4 Loko God is LIVE.";
-
-                        status.classList.add("connected");
-
-                        talkButton.textContent =
-                            "🔴 THE 4 LOKO GOD IS TALKING";
-
-                        stopButton.style.display = "inline-block";
-
-                    },
-
-                    onDisconnect: () => {
-
-                        status.textContent =
-                            "Ready when you are.";
-
-                        status.classList.remove("connected");
-
-                        talkButton.textContent =
-                            "🎙️ TALK TO THE 4 LOKO GOD";
-
-                        talkButton.disabled = false;
-
-                        stopButton.style.display = "none";
-
-                        conversation = null;
-
-                    },
-
-                    onError: (error) => {
-
-                        console.error("ElevenLabs error:", error);
-
-                        status.textContent =
-                            "⚠️ Couldn't connect. Check your ElevenLabs agent settings and credits.";
-
-                        talkButton.textContent =
-                            "🎙️ TRY AGAIN";
-
-                        talkButton.disabled = false;
-
-                        stopButton.style.display = "none";
-
-                    },
-
-                    onModeChange: ({ mode }) => {
-
-                        if (mode === "speaking") {
-
-                            status.textContent =
-                                "🔊 The 4 Loko God is speaking...";
-
-                        } else {
-
-                            status.textContent =
-                                "🎙️ Your turn...";
-
-                        }
-
-                    }
-
-                });
-
-            } catch (error) {
-
-                console.error("Failed to start conversation:", error);
-
-                status.textContent =
-                    "⚠️ Microphone access or connection failed.";
-
-                talkButton.textContent =
-                    "🎙️ TRY AGAIN";
-
-                talkButton.disabled = false;
-
-            }
-
-        }
-
-
-        async function stopConversation() {
-
-            if (conversation) {
-
-                await conversation.endSession();
-
-                conversation = null;
-
-            }
-
-        }
-
-
-        talkButton.addEventListener(
-            "click",
-            startConversation
-        );
-
-
-        stopButton.addEventListener(
-            "click",
-            stopConversation
-        );
-
+            widgetContainer.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+        });
     </script>
 
 </body>
